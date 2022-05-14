@@ -8,6 +8,7 @@ interface Veiculo {
   const $ = (query: string): HTMLInputElement | null =>
     document.querySelector(query);
 
+  //Calcula tempo milisegundos
   function calcTempo(mil: number) {
     const min = Math.floor(mil / 60000);
     const sec = Math.floor((mil % 60000) / 1000);
@@ -15,15 +16,18 @@ interface Veiculo {
     return `${min}m e ${sec}s`;
   }
 
+  //Função para retornar carros no patio caso haja algum cadastrado
   function patio() {
     function ler(): Veiculo[] {
       return localStorage.patio ? JSON.parse(localStorage.patio) : [];
     }
 
+    //Função para salvar os veículos cadastrados no localstorage
     function salvar(veiculos: Veiculo[]) {
       localStorage.setItem("patio", JSON.stringify(veiculos));
     }
 
+    //Funçao que adiciona os curriculos na tabela no front
     function adicionar(veiculo: Veiculo, salva?: boolean) {
       const row = document.createElement("tr");
 
@@ -45,6 +49,7 @@ interface Veiculo {
       if (salva) salvar([...ler(), veiculo]);
     }
 
+    //Funçao que remove linha do carro que saiu do estacionamento comparando pela placa
     function remover(placa: string) {
       const { entrada, nome } = ler().find(
         (veiculo) => veiculo.placa === placa
